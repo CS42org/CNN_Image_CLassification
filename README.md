@@ -8,4 +8,4 @@ This repository provides code and resources for training, evaluating and testing
 4) Complete the tasks provided by the instructor to enhance the accuracy
 
 
-Credits - Mohammed Shehada
+Credits - CS42.org
