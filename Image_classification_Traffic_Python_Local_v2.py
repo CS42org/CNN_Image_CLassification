@@ -13,6 +13,7 @@ import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot  as plt
 from PIL import Image
+from IPython.display import display
 
 
 # In[2]:
@@ -526,10 +527,20 @@ def classify(file_path):
 
 
 def proba_():
-    classify_b=Button(top,text=proba,
-   command=lambda: classify(file_path),padx=10,pady=5)
-    classify_b.configure(background='#364156', foreground='white',font=('arial',20,'bold'))
-    classify_b.place(relx=0.79,rely=0.46)
+    """Display a button that shows the predicted probabilities."""
+    classify_b = Button(
+        top,
+        text="Probability",
+        command=lambda: classify(file_path),
+        padx=10,
+        pady=5,
+    )
+    classify_b.configure(
+        background="#364156",
+        foreground="white",
+        font=("arial", 20, "bold"),
+    )
+    classify_b.place(relx=0.79, rely=0.46)
     
     
     
