@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 #Import the required libraries
 import keras
 import os
@@ -15,18 +9,10 @@ import matplotlib.pyplot  as plt
 from PIL import Image
 from IPython.display import display
 
-
-# In[2]:
-
-
 #Set the image size to reresize all the images into (im_size x im_size x 3)
 global im_size
 im_size = 50 
 training_data = []
-
-
-# In[3]:
-
 
 #Get the path to the training data
 Path=os.getcwd() #Current path
@@ -39,9 +25,6 @@ Classes = next(os.walk(Path))[1] #The name of the folders
 print(f"\n{Classes}") #Print the classes 
 
 
-# In[4]:
-
-
 def image_processing(full_path = "path"):
 
     im = cv2.imread(full_path)
@@ -49,9 +32,6 @@ def image_processing(full_path = "path"):
     im = im/255.0
     
     return im
-
-
-# In[5]:
 
 
 #Read the training data & label them based on folder name
@@ -80,10 +60,6 @@ print("\n\n The Shape of the image is: ",training_data[0][0].shape)
 
 plt.imshow(training_data[1][0])
 plt.show()
-
-
-# In[6]:
-
 
 #Read the testing data & label them based on folder name
 
@@ -121,25 +97,16 @@ plt.imshow(testing_data[1][0])
 plt.show()
 
 
-# In[7]:
-
-
 #Get the labels names
 label_data = pd.DataFrame(label_data) #Convert the label_data in a DataFrame
 label_data = label_data[1].unique() #Store the unique values in label_data (each class z)
 print(label_data)
 
 
-# In[8]:
-
-
 #Shuffle The training and testing data
 import random
 random.shuffle(training_data)
 random.shuffle(testing_data)
-
-
-# In[9]:
 
 
 #Seprate the features and labels in the training data  from [Features, label] => X = features, Y = Label
@@ -150,10 +117,6 @@ for features,label in training_data:
     X_train.append(features)
     y_train.append(label)
 print("Number of training images:",len(y_train),"\nExamples of the labels",y_train[:5])
-
-
-# In[10]:
-
 
 #Seprate the features and labels in the training data  from [Features, label] => X = features, Y = Label
 
@@ -166,26 +129,13 @@ for features,label in testing_data:
 
 print("Number of testing images:",len(y_test),"\nExamples of the labels",y_test[:5])
 
-
-# In[11]:
-
-
 #Reshape the features to (n x im_size x im_size x 3)
 
 X_train = np.array(X_train).reshape(-1, im_size, im_size,3)
 X_test = np.array(X_test).reshape(-1, im_size, im_size,3)
 
-
-# # Code
-
-# In[12]:
-
-
 print("The shape of the training features is:",X_train.shape)
 print("The shape of the testing features is:",X_test.shape)
-
-
-# In[13]:
 
 
 #Show an example from the training images
@@ -193,8 +143,6 @@ idx = 80
 ex = X_train[idx].copy()
 plt.imshow(ex)
 plt.show()
-
-
 
 # Split the image into its BGR channels
 blue_channel, green_channel, red_channel = cv2.split(ex)
@@ -205,10 +153,6 @@ ex = np.stack((red_channel, green_channel, blue_channel), axis=-1)
 
 plt.imshow(ex)
 plt.show()
-
-
-# In[15]:
-
 
 #Impor the libraries for the NN
 
@@ -221,8 +165,6 @@ from keras.optimizers import SGD,Adam
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D,AveragePooling2D
 from keras.utils import np_utils
-
-
 
 #Build the NN Architechture
 
@@ -255,20 +197,10 @@ model.add(Dense(100,activation='relu'))
 model.add(Dense(50,activation='relu'))
 model.add(Dense(len(label_data), activation='softmax')) #softmax, relu, sigmoid, linear
 
-
-# In[17]:
-
-
 model.compile(optimizer='Adam', loss='sparse_categorical_crossentropy', metrics=['accuracy']) #Adam, SGD
 
 
-# In[18]:
-
-
 model.summary()
-
-
-# In[19]:
 
 
 #Prepare the training data
@@ -280,9 +212,6 @@ X_test = np.asarray(X_test).astype('float32').reshape((-1,im_size,im_size,3))
 y_test = np.asarray(y_test).astype('float32').reshape((-1,1))
 
 
-# In[20]:
-
-
 file_path= "model3.h5"
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(filepath=file_path,
                                                                monitor='val_accuracy', 
@@ -292,10 +221,6 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(filepath=file_pat
 history = model.fit(X_train, y_train, epochs=50,
                     callbacks=[model_checkpoint_callback], verbose=1, validation_data=(X_test, y_test))
 # history = model.fit(train_generator, epochs=25,validation_data = validation_generator, verbose = 1)
-
-
-# In[21]:
-
 
 import matplotlib.pyplot as plt
 
@@ -316,17 +241,12 @@ plt.figure()
 plt.show()
 
 
-# In[22]:
-
-
 from keras.models import load_model
 model = load_model('model3.h5')
 
 
 _,acc=model.evaluate(X_test,y_test)
 print(acc*100)
-
-
 
 
 import os
@@ -390,20 +310,11 @@ def model_pred(im_array):
 # label_data = ['Left', 'Pedestrian', 'Right', 'Roundabout', 'Speed 100', 'Speed 120', 'Speed 60', 'Speed 80', 'Stop', 'Traffic light']
 # im_size =100
 
-
-# In[24]:
-
-
 # Process the image
 image_array = image_processing("Data/Validation/Roundabout/Roundabout_4.jpg")
 
 # Use the image array for model prediction
 prediction = model_pred(image_array)
-
-
-
-# In[31]:
-
 
 import tkinter as tk
 from tkinter import filedialog
