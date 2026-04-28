@@ -70,18 +70,26 @@ CNN_Image_CLassification/
 ├── CIFAR/                                            # Bonus: CIFAR-10 notebooks (separate task)
 ├── Database+/                                        # Larger dataset variants
 ├── model2.h5                                         # Pre-trained model (~4MB)
-├── Requirements_v2.txt                               # Pinned dependencies
+├── requirements.txt                                  # Minimum-version deps (recommended)
+├── Requirements_v2.txt                               # Exact-pin deps (TF 2.12 / Py 3.10)
 └── README.md
 ```
 
 ---
 
 ### 🧰 Requirements
+
+**Recommended (minimum versions):**
+```bash
+pip install -r requirements.txt
+```
+
+**Or, the original pinned set tested with TensorFlow 2.12 / Python 3.10:**
 ```bash
 pip install -r Requirements_v2.txt
 ```
 
-The pinned versions in `Requirements_v2.txt` are tested with **TensorFlow 2.12** and **Python 3.10**.
+The two files differ only in strictness: `requirements.txt` uses `>=` constraints (works with newer Python), `Requirements_v2.txt` uses `==` pins for an exact reproduction of the original environment.
 
 ---
 
